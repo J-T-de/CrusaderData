@@ -1,0 +1,610 @@
+<?xml version="1.0" encoding="utf-8"?>
+<CheatTable CheatEngineTableVersion="29">
+  <CheatEntries>
+    <CheatEntry>
+      <ID>0</ID>
+      <Description>"Strongholdify"</Description>
+      <Options moActivateChildrenAsWell="1" moDeactivateChildrenAsWell="1"/>
+      <LastState Value="" RealAddress="00000000"/>
+      <GroupHeader>1</GroupHeader>
+      <CheatEntries>
+        <CheatEntry>
+          <ID>1</ID>
+          <Description>"FixBeerPopularity"</Description>
+          <Options moActivateChildrenAsWell="1" moDeactivateChildrenAsWell="1"/>
+          <LastState Value="" RealAddress="00000000"/>
+          <GroupHeader>1</GroupHeader>
+          <CheatEntries>
+            <CheatEntry>
+              <ID>2</ID>
+              <Description>"FixBeerPopularity"</Description>
+              <LastState/>
+              <VariableType>Auto Assembler Script</VariableType>
+              <AssemblerScript>[ENABLE]
+
+aobscan(FixBeerPopularity, 83 F8 19 89 84 3E ?? ?? ?? ?? 7D)
+
+label(FixBeerPopularity1)
+label(FixBeerPopularity2)
+label(FixBeerPopularity3)
+
+registersymbol(FixBeerPopularity)
+registersymbol(FixBeerPopularity1)
+registersymbol(FixBeerPopularity2)
+registersymbol(FixBeerPopularity3)
+
+FixBeerPopularity + 15:
+FixBeerPopularity1:
+// mov eax,00000019
+db B8 19 00 00 00
+
+FixBeerPopularity + 21:
+FixBeerPopularity2:
+// mov eax,00000032
+db B8 32 00 00 00
+
+FixBeerPopularity + 33:
+FixBeerPopularity3:
+// and edx,-32
+// add edx,000000C8
+db 83 E2 9C 83 C2 64 90 90 90
+
+
+
+[DISABLE]
+
+FixBeerPopularity1:
+db B8 32 00 00 00 //mov eax,00000032
+
+FixBeerPopularity2:
+db B8 64 00 00 00 //mov eax,00000064
+
+FixBeerPopularity3:
+// and edx,-32
+// add edx,000000C8
+db 83 E2 CE 81 C2 C8 00 00 00
+
+
+unregistersymbol(FixBeerPopularity)
+unregistersymbol(FixBeerPopularity1)
+unregistersymbol(FixBeerPopularity2)
+unregistersymbol(FixBeerPopularity3)
+</AssemblerScript>
+            </CheatEntry>
+            <CheatEntry>
+              <ID>3</ID>
+              <Description>"FixBeerPopularityTab"</Description>
+              <LastState/>
+              <VariableType>Auto Assembler Script</VariableType>
+              <AssemblerScript>[ENABLE]
+
+aobscan(FixBeerPopularityTab, 83 F8 19 7D 04)
+
+label(FixBeerPopularityTab1)
+label(FixBeerPopularityTab2)
+label(FixBeerPopularityTab3)
+
+registersymbol(FixBeerPopularityTab)
+registersymbol(FixBeerPopularityTab1)
+registersymbol(FixBeerPopularityTab2)
+registersymbol(FixBeerPopularityTab3)
+
+
+FixBeerPopularityTab + E:
+FixBeerPopularityTab1:
+// mov esi,00000032
+db BE 19 00 00 00
+
+FixBeerPopularityTab + 1A:
+FixBeerPopularityTab2:
+// mov esi,00000064
+db BE 32 00 00 00
+
+FixBeerPopularityTab + 2C:
+FixBeerPopularityTab3:
+// and ecx,-19
+// add ecx,64
+// nop 3
+db 83 E1 E7 83 C1 64 90 90 90
+
+
+
+[DISABLE]
+
+FixBeerPopularityTab1:
+// mov esi,00000032
+db BE 32 00 00 00
+
+FixBeerPopularityTab2:
+// mov esi,00000064
+db BE 64 00 00 00
+
+FixBeerPopularityTab3:
+// and ecx,-32
+// add ecx,000000C8
+db 83 E1 CE 81 C1 C8 00 00 00
+
+unregistersymbol(FixBeerPopularityTab)
+unregistersymbol(FixBeerPopularityTab1)
+unregistersymbol(FixBeerPopularityTab2)
+unregistersymbol(FixBeerPopularityTab3)
+</AssemblerScript>
+            </CheatEntry>
+            <CheatEntry>
+              <ID>4</ID>
+              <Description>"FixBeerTab"</Description>
+              <LastState/>
+              <VariableType>Auto Assembler Script</VariableType>
+              <AssemblerScript>[ENABLE]
+
+aobscan(FixBeerTab, 83 FE 19 7D 04)
+label(FixBeerTab1)
+label(FixBeerTab2)
+label(FixBeerTab3)
+
+registersymbol(FixBeerTab)
+registersymbol(FixBeerTab1)
+registersymbol(FixBeerTab2)
+registersymbol(FixBeerTab3)
+
+FixBeerTab + E:
+FixBeerTab1:
+// mov eax,00000019
+db B8 19 00 00 00
+
+FixBeerTab + 1A:
+FixBeerTab2:
+// mov eax,00000032
+db B8 32 00 00 00
+
+FixBeerTab + 2C:
+FixBeerTab3:
+// and eax,-19
+// add eax,64
+// nop 2
+db 83 E0 E7 83 C0 64 90 90
+
+
+
+[DISABLE]
+
+FixBeerTab1:
+//mov eax,00000032
+db B8 32 00 00 00
+
+FixBeerTab2:
+//mov eax,00000064
+db B8 64 00 00 00
+
+FixBeerTab3:
+// and eax,-32
+// add eax,000000C8
+db 83 E0 CE 05 C8 00 00 00
+
+
+unregistersymbol(FixBeerTab)
+unregistersymbol(FixBeerTab1)
+unregistersymbol(FixBeerTab2)
+unregistersymbol(FixBeerTab3)
+</AssemblerScript>
+            </CheatEntry>
+          </CheatEntries>
+        </CheatEntry>
+        <CheatEntry>
+          <ID>5</ID>
+          <Description>"FixReligionPopularity"</Description>
+          <Options moActivateChildrenAsWell="1" moDeactivateChildrenAsWell="1"/>
+          <LastState Value="" RealAddress="00000000"/>
+          <GroupHeader>1</GroupHeader>
+          <CheatEntries>
+            <CheatEntry>
+              <ID>6</ID>
+              <Description>"FixReligionPopularity"</Description>
+              <LastState/>
+              <VariableType>Auto Assembler Script</VariableType>
+              <AssemblerScript>[ENABLE]
+
+aobscan(FixReligionPopularity, 83 BE ?? ?? ?? ?? 00 74 03 83 C1 19)
+label(FixReligionPopularity1)
+label(FixReligionPopularity2)
+
+registersymbol(FixReligionPopularity)
+registersymbol(FixReligionPopularity1)
+registersymbol(FixReligionPopularity2)
+
+FixReligionPopularity + 9:
+FixReligionPopularity1:
+// add ecx,0
+db 83 C1 00
+
+FixReligionPopularity + 15:
+FixReligionPopularity2:
+// add ecx,0
+db 83 C1 00
+
+
+
+[DISABLE]
+
+FixReligionPopularity1:
+// add ecx,19
+db 83 C1 19
+
+FixReligionPopularity2:
+// add ecx,0
+db 83 C1 32
+
+unregistersymbol(FixReligionPopularity)
+unregistersymbol(FixReligionPopularity1)
+unregistersymbol(FixReligionPopularity2)
+</AssemblerScript>
+            </CheatEntry>
+            <CheatEntry>
+              <ID>7</ID>
+              <Description>"FixReligionPopularityTab"</Description>
+              <LastState/>
+              <VariableType>Auto Assembler Script</VariableType>
+              <AssemblerScript>[ENABLE]
+
+aobscan(FixReligionPopularityTab, 83 B9 ?? ?? ?? ?? 00 74 03 83 C6 19)
+label(FixReligionPopularityTab1)
+label(FixReligionPopularityTab2)
+
+registersymbol(FixReligionPopularityTab)
+registersymbol(FixReligionPopularityTab1)
+registersymbol(FixReligionPopularityTab2)
+
+FixReligionPopularityTab + 9:
+FixReligionPopularityTab1:
+// add esi, 0
+db 83 C6 00
+
+FixReligionPopularityTab + 15:
+FixReligionPopularityTab2:
+// add esi, 0
+db 83 C6 00
+
+
+
+[DISABLE]
+
+FixReligionPopularityTab1:
+// add esi, 19h
+db 83 C6 19
+
+FixReligionPopularityTab2:
+// add esi, 32h
+db 83 C6 32
+
+unregistersymbol(FixReligionPopularityTab)
+unregistersymbol(FixReligionPopularityTab1)
+unregistersymbol(FixReligionPopularityTab2)
+</AssemblerScript>
+            </CheatEntry>
+            <CheatEntry>
+              <ID>8</ID>
+              <Description>"FixReligionTab"</Description>
+              <LastState/>
+              <VariableType>Auto Assembler Script</VariableType>
+              <AssemblerScript>[ENABLE]
+
+aobscan(FixReligionTab, 74 39 83 B8 ?? ?? ?? ?? 00 74)
+label(FixReligionTab1)
+label(FixReligionTab2)
+
+registersymbol(FixReligionTab)
+registersymbol(FixReligionTab1)
+registersymbol(FixReligionTab2)
+
+FixReligionTab:
+// jmp 00440145
+db EB 6D
+
+FixReligionTab + 86:
+FixReligionTab1:
+// mov ecx, 0
+db B9 00 00 00 00
+
+FixReligionTab + 94:
+FixReligionTab2:
+// add ecx, 0
+db 83 C1 00
+
+
+
+[DISABLE]
+
+FixReligionTab:
+// je 00440111
+db 74 39
+
+FixReligionTab1:
+// mov ecx, 19h
+db B9 19 00 00 00
+
+FixReligionTab2:
+// add ecx, 32h
+db 83 C1 32
+
+
+unregistersymbol(FixReligionTab)
+unregistersymbol(FixReligionTab1)
+unregistersymbol(FixReligionTab2)
+</AssemblerScript>
+            </CheatEntry>
+          </CheatEntries>
+        </CheatEntry>
+        <CheatEntry>
+          <ID>9</ID>
+          <Description>"FixGoodQuantity"</Description>
+          <LastState/>
+          <VariableType>Auto Assembler Script</VariableType>
+          <AssemblerScript>[ENABLE]
+
+aobscan(FixGoodQuantity, 83 C0 32 8B 7C 24 10)
+registersymbol(FixGoodQuantity)
+
+FixGoodQuantity:
+// add eax,0
+db 83 C0 00
+
+
+
+[DISABLE]
+
+FixGoodQuantity:
+// add eax,0
+db 83 C0 32
+
+unregistersymbol(FixGoodQuantity)
+</AssemblerScript>
+        </CheatEntry>
+        <CheatEntry>
+          <ID>10</ID>
+          <Description>"FixBuildingCosts"</Description>
+          <LastState/>
+          <VariableType>Auto Assembler Script</VariableType>
+          <AssemblerScript>[ENABLE]
+{$lua}
+
+
+BUILDING_COST_CHANGES = {
+-- buildings
+{"armory",          10,  0, 0, 0,   0},
+{"inn",             50,  0, 0, 0,  25},
+{"apothecary",      10,  0, 0, 0,  50},
+{"marketplace",     15,  0, 0, 0,   0},
+{"chapel",           0, 10, 0, 0, 250},
+{"church",           0, 20, 0, 0, 350},
+{"cathedral",        0, 40, 0, 0, 500},
+-- good things (add pond when included)
+{"maypole",          0,  0, 0, 0,  30},
+{"garden",           0,  0, 0, 0,  30},
+{"statue",           0,  0, 0, 0,  30},
+{"shrine",           0,  0, 0, 0,  30},
+{"dancing_bear",     0,  0, 0, 0,  30},
+-- bad things
+{"gallows",          0,  0, 0, 0,  50},
+{"stocks",           0,  0, 0, 0,  50},
+{"cesspit",          0,  0, 0, 0,  50},
+{"burning_stake",    0,  0, 0, 0,  50},
+{"gibbet",           0,  0, 0, 0,  50},
+{"dungeon",          0,  0, 0, 0,  50},
+{"stretching_rack",  0,  0, 0, 0,  50},
+{"chopping_block",   0,  0, 0, 0,  50},
+{"dunking_stool",    0,  0, 0, 0,  50}}
+
+
+function getBuildingCostBase()
+  local scan = AOBScan(BUILDING_COST_AOB)
+
+  if scan == nil then
+    print("AOB not found")
+    return nil
+  end
+
+  if scan.Count~= 2 then
+    -- we should find two entries:
+    -- one fixed in the .exe     - scan[0]
+    -- one loaded during runtime - scan[1]
+    print("AOB strange")
+    return nil
+  end
+
+  local ret = tonumber(scan[1], 16) -- convert hex string to number
+
+  scan.destroy()
+
+  return ret
+end
+
+
+BUILDING_COST_AOB = "00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 06 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 06 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 03"
+-- BUILDING_COST_BASE = 0x01124CF4 -- 1.4.1
+BUILDING_COST_BASE = getBuildingCostBase()
+
+
+function getBuildingCostAddress(building, resource_id)
+  return BUILDING_COST_BASE + 20 * BUILDING_COST_ID[building] + 4 * resource_id
+end
+
+-- Apply changes
+for building_cost_change = 1, #BUILDING_COST_CHANGES do
+  change = BUILDING_COST_CHANGES[building_cost_change]
+  for resource_id = 0, 4 do
+    writeInteger(getBuildingCostAddress(change[1],resource_id), change[resource_id+2])
+  end
+end
+
+
+
+{$asm}
+[DISABLE]
+{$lua}
+
+
+print("Please restart the game")
+</AssemblerScript>
+        </CheatEntry>
+        <CheatEntry>
+          <ID>11</ID>
+          <Description>"FixPeasantSpawnRate"</Description>
+          <LastState/>
+          <VariableType>Auto Assembler Script</VariableType>
+          <AssemblerScript>[ENABLE]
+
+aobscan(FixPeasantSpawnRate,39 9E ?? ?? ?? ?? 74 0E 39 1D)
+label(FixPeasantSpawnRate1)
+label(FixPeasantSpawnRate2)
+
+registersymbol(FixPeasantSpawnRate)
+registersymbol(FixPeasantSpawnRate1)
+registersymbol(FixPeasantSpawnRate2)
+
+FixPeasantSpawnRate + 8:
+FixPeasantSpawnRate1:
+// cmp ebx, 0
+// nop 3
+  db 83 FB 00 90 90 90
+
+FixPeasantSpawnRate + 16:
+FixPeasantSpawnRate2:
+// cmp ebx, 0
+// nop 3
+  db 83 FB 00 90 90 90
+
+
+
+[DISABLE]
+
+FixPeasantSpawnRate1:
+// cmp [0191DD80],ebx
+  db 39 1D 80 DD 91 01
+
+FixPeasantSpawnRate2:
+// cmp [0191DD80],ebx
+  db 39 1D 80 DD 91 01
+
+unregistersymbol(FixPeasantSpawnRate)
+unregistersymbol(FixPeasantSpawnRate1)
+unregistersymbol(FixPeasantSpawnRate2)
+</AssemblerScript>
+        </CheatEntry>
+      </CheatEntries>
+    </CheatEntry>
+  </CheatEntries>
+  <UserdefinedSymbols/>
+  <Comments>Version 1.5
+  
+by J-T-de and Chaf1812
+</Comments>
+  <LuaScript>BUILDING_COST_ID = {}
+-- STRUCT_NULL
+BUILDING_COST_ID.hovel             = 1
+-- STRUCT_HOUSE
+BUILDING_COST_ID.woodcutter        = 3
+BUILDING_COST_ID.ox_tether         = 4
+BUILDING_COST_ID.iron_mine         = 5
+BUILDING_COST_ID.pitch_rig         = 6
+BUILDING_COST_ID.hunter            = 7
+BUILDING_COST_ID.mercenary_post    = 8
+BUILDING_COST_ID.barracks          = 9
+BUILDING_COST_ID.stockpile         = 10
+BUILDING_COST_ID.armory            = 11
+BUILDING_COST_ID.fletcher          = 12
+BUILDING_COST_ID.blacksmith        = 13
+BUILDING_COST_ID.poleturner        = 14
+BUILDING_COST_ID.armourer          = 15
+BUILDING_COST_ID.tanner            = 16
+BUILDING_COST_ID.bakery            = 17
+BUILDING_COST_ID.brewery           = 18
+BUILDING_COST_ID.granary           = 19
+BUILDING_COST_ID.quarry            = 20
+-- STRUCT_QUARRYPILE
+BUILDING_COST_ID.inn               = 22
+BUILDING_COST_ID.apothecary        = 23
+BUILDING_COST_ID.engineers_guild   = 24
+BUILDING_COST_ID.tunnelers_guild   = 25
+BUILDING_COST_ID.marketplace       = 26
+BUILDING_COST_ID.well              = 27
+BUILDING_COST_ID.oil_smelter       = 28
+-- STRUCT_SIEGE_TENT
+BUILDING_COST_ID.wheat_farm        = 30
+BUILDING_COST_ID.hop_farm          = 31
+BUILDING_COST_ID.apple_farm        = 32
+BUILDING_COST_ID.dairy_farm        = 33
+BUILDING_COST_ID.mill              = 34
+BUILDING_COST_ID.stables           = 35
+BUILDING_COST_ID.chapel            = 36
+BUILDING_COST_ID.church            = 37
+BUILDING_COST_ID.cathedral         = 38
+-- STRUCT_UNUSED
+-- STRUCT_KEEP_ONE
+-- STRUCT_KEEP_TWO
+-- STRUCT_KEEP_THREE
+-- STRUCT_KEEP_FOUR
+-- STRUCT_KEEP_FIVE
+BUILDING_COST_ID.large_gatehouse   = 45
+BUILDING_COST_ID.small_gatehouse   = 46
+-- -- STRUCT_MAIN_WOOD
+-- -- STRUCT_POSTERN_GATE
+BUILDING_COST_ID.drawbridge        = 49
+BUILDING_COST_ID.tunnel            = 50
+-- STRUCT_CAMP_FIRE
+-- STRUCT_SIGNPOST
+-- STRUCT_PARADE_GROUND
+BUILDING_COST_ID.fire_ballista     = 54
+-- STRUCT_CAMPGROUND
+-- STRUCT_PARADE_GROUND
+-- STRUCT_PARADE_GROUND
+-- STRUCT_PARADE_GROUND
+-- STRUCT_PARADE_GROUND
+-- STRUCT_GATEHOUSE
+-- STRUCT_TOWER
+BUILDING_COST_ID.gallows           = 62
+BUILDING_COST_ID.stocks            = 63
+-- STRUCT_WITCH_HOIST
+BUILDING_COST_ID.maypole           = 65
+BUILDING_COST_ID.garden            = 66
+BUILDING_COST_ID.killing_pit       = 67
+BUILDING_COST_ID.pitch_ditch       = 68
+-- STRUCT_UNUSED
+BUILDING_COST_ID.water_pot         = 70
+-- KEEPDOOR_LEFT
+-- KEEPDOOR_RIGHT
+-- KEEPDOOR
+BUILDING_COST_ID.tower_one         = 74
+BUILDING_COST_ID.tower_two         = 75
+BUILDING_COST_ID.tower_three       = 76
+BUILDING_COST_ID.tower_four        = 77
+BUILDING_COST_ID.tower_five        = 78
+-- STRUCT_UNUSED
+BUILDING_COST_ID.catapult          = 80
+BUILDING_COST_ID.trebuchet         = 81
+BUILDING_COST_ID.battering_ram     = 82
+BUILDING_COST_ID.siege_tower       = 83
+BUILDING_COST_ID.portable_shield   = 84
+-- STRUCT_UNUSED
+BUILDING_COST_ID.mangonel          = 86
+BUILDING_COST_ID.balista           = 87
+-- STRUCT_UNUSED
+-- STRUCT_UNUSED
+-- STRUCT_UNUSED
+BUILDING_COST_ID.cesspit           = 91
+BUILDING_COST_ID.burning_stake     = 92
+BUILDING_COST_ID.gibbet            = 93
+BUILDING_COST_ID.dungeon           = 94
+BUILDING_COST_ID.stretching_rack   = 95
+-- STRUCT_RACK_FLOGGING
+BUILDING_COST_ID.chopping_block    = 97
+BUILDING_COST_ID.dunking_stool     = 98
+BUILDING_COST_ID.dog_cage          = 99
+BUILDING_COST_ID.statue            = 100
+BUILDING_COST_ID.shrine            = 101
+-- STRUCT_BEE_HIVE
+BUILDING_COST_ID.dancing_bear      = 103
+-- STRUCT_POND
+-- STRUCT_BEAR_CAVE
+BUILDING_COST_ID_LENGTH            = 105
+</LuaScript>
+</CheatTable>

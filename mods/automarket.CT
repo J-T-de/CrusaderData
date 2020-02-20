@@ -1,0 +1,300 @@
+<?xml version="1.0" encoding="utf-8"?>
+<CheatTable CheatEngineTableVersion="29">
+  <CheatEntries>
+    <CheatEntry>
+      <ID>1</ID>
+      <Description>"AutoMarket"</Description>
+      <LastState/>
+      <VariableType>Auto Assembler Script</VariableType>
+      <AssemblerScript>{$lua}
+------------------
+-- Market Setup --
+------------------
+
+--[[
+You can add any good you want to trade to the automatic market by adding
+{"good", min, trade_amount, max, max_var}
+to the MARKET_LIST. All goods below the MARKET_LIST.
+--]]
+
+MARKET_LIST = {
+{"wood",   10,  5, 50,  5},
+{"bread",  15, 10, 50, 20},
+{"cheese", 15, 10, 50, 20},
+{"meat",   15, 10, 50, 20},
+{"fruit",  15, 10, 50, 20}}
+
+-- If you gold is below this threshold, the automatic marktet does not buy stuff
+GOLD_THRESHOLD = 300
+
+
+--[[
+wood
+hop
+stone
+iron
+pitch
+wheat
+bread
+cheese
+meat
+fruit
+beer
+flour
+bow
+xbow
+spear
+pike
+mace
+sword
+leather
+armor
+--]]
+
+
+
+---------------------
+-- Assembly Script --
+--- Don't touch ! ---
+---------------------
+
+{$asm}
+loadlibrary(luaclient-i386.dll)
+luacall(openLuaServer('CELUASERVER'))
+
+CELUA_ServerName:
+db 'CELUASERVER',0
+
+alloc(functionid,32)
+alloc(str_getGood,64)
+alloc(str_checkBuy,64)
+alloc(str_getBuyQuantity,64)
+alloc(str_checkSell,64)
+alloc(str_getSellQuantity,64)
+alloc(str_nextGood,64)
+
+str_getGood:
+db 'return getGood(parameter)',0
+str_checkBuy:
+db 'return checkBuy(parameter)',0
+str_getBuyQuantity:
+db 'return getBuyQuantity(parameter)',0
+str_checkSell:
+db 'return checkSell(parameter)',0
+str_getSellQuantity:
+db 'return getSellQuantity(parameter)',0
+str_nextGood:
+db 'return nextGood(parameter)',0
+
+
+
+[ENABLE]
+
+aobscanmodule(AutoMarketInject,Stronghold Crusader.exe,E9 9F E7 FF FF)
+alloc(AutoMarketMem,$1000)
+label(AutoMarketInit)
+label(AutoMarketBuy)
+label(AutoMarketSell)
+label(AutoMarketInc)
+label(AutoMarketReturn)
+
+registersymbol(AutoMarketInject)
+registersymbol(AutoMarketMem)
+registersymbol(AutoMarketInit)
+registersymbol(AutoMarketBuy)
+registersymbol(AutoMarketSell)
+registersymbol(AutoMarketInc)
+registersymbol(AutoMarketReturn)
+
+
+AutoMarketInject:
+  jmp AutoMarketMem
+
+AutoMarketMem:
+
+AutoMarketInit:
+  push ecx
+// checks if appropriate gametick
+  cmp dword ptr [117CACC],00
+  jz AutoMarketReturn
+
+AutoMarketBuy:
+// checks and might buy
+  push eax
+  push str_checkBuy
+  call CELUA_ExecuteFunction
+  test eax,eax
+  jz AutoMarketSell
+  push eax
+  push str_getBuyQuantity
+  call CELUA_ExecuteFunction
+  push eax
+  push eax
+  push str_getGood
+  call CELUA_ExecuteFunction
+  push eax
+  push 1
+  call 004CC000
+  jmp AutoMarketInc
+
+AutoMarketSell:
+// checks and might sell
+  push eax
+  push str_checkSell
+  call CELUA_ExecuteFunction
+  test eax, eax
+  jz AutoMarketInc
+  push eax
+  push str_getSellQuantity
+  call CELUA_ExecuteFunction
+  push eax
+  push eax
+  push str_getGood
+  call CELUA_ExecuteFunction
+  push eax
+  push 1
+  call 004CBFA0
+
+AutoMarketInc:
+// increments current good
+  push eax
+  push str_nextGood
+  call CELUA_ExecuteFunction
+
+AutoMarketReturn:
+// return
+  pop ecx
+  jmp 0045B4A0
+
+
+
+[DISABLE]
+
+AutoMarketInject:
+  db E9 9F E7 FF FF
+
+
+dealloc(AutoMarketMem)
+
+dealloc(str_getGood,64)
+dealloc(str_checkBuy,64)
+dealloc(str_getBuyQuantity,64)
+dealloc(str_checkSell,64)
+dealloc(str_getSellQuantity,64)
+dealloc(str_nextGood,64)
+
+unregistersymbol(AutoMarketInject)
+unregistersymbol(AutoMarketMem)
+unregistersymbol(AutoMarketInit)
+unregistersymbol(AutoMarketBuy)
+unregistersymbol(AutoMarketSell)
+unregistersymbol(AutoMarketInc)
+unregistersymbol(AutoMarketReturn)
+</AssemblerScript>
+    </CheatEntry>
+  </CheatEntries>
+  <UserdefinedSymbols/>
+  <Comments>Version 1.1
+
+by J-T-de and Chaf1812</Comments>
+  <LuaScript>----------------
+-- Goods List --
+----------------
+
+GOODS_ID = {}
+GOODS_ID.wood     = 2
+GOODS_ID.hop      = 3
+GOODS_ID.stone    = 4
+GOODS_ID.iron     = 6
+GOODS_ID.pitch    = 7
+GOODS_ID.wheat    = 9
+GOODS_ID.bread    = 10
+GOODS_ID.cheese   = 11
+GOODS_ID.meat     = 12
+GOODS_ID.fruit    = 13
+GOODS_ID.beer     = 14
+GOODS_ID.flour    = 16
+GOODS_ID.bow      = 17
+GOODS_ID.xbow     = 18
+GOODS_ID.spear    = 19
+GOODS_ID.pike     = 20
+GOODS_ID.mace     = 21
+GOODS_ID.sword    = 22
+GOODS_ID.leather  = 23
+GOODS_ID.armor    = 24
+GOODS_ID_LENGTH   = 25
+
+
+
+-----------------
+-- Lua Scripts --
+-----------------
+
+good_id = 1
+-- current good, or more precise, index of MARKET_LIST
+
+function getGood()
+  -- returns current good id
+  return GOODS_ID[MARKET_LIST[good_id][1]]
+end
+
+function checkBuy()
+  -- returns 1 if current good should be bought, else 0
+  if getGold(1) &lt; GOLD_THRESHOLD then
+    return 0
+  end
+  local good_arr = MARKET_LIST[good_id]
+  if getGoodCount(1, good_arr[1]) &lt; good_arr[2] then
+    return 1
+  end
+  return 0
+end
+
+function getBuyQuantity()
+  -- returns how much of the current good should be bought
+  local good_arr = MARKET_LIST[good_id]
+  return good_arr[3]
+end
+
+function checkSell()
+  -- returns 1 if current good should be sold, else 0
+  local good_arr = MARKET_LIST[good_id]
+  if getGoodCount(1, good_arr[1]) &gt; good_arr[4] + good_arr[5] then
+    return 1
+  end
+  return 0
+end
+
+function getSellQuantity()
+  -- returns how much of the current good should be sold
+  local good_arr = MARKET_LIST[good_id]
+  local count = getGoodCount(1, good_arr[1])
+  return count - good_arr[4]
+end
+
+function nextGood()
+  -- increments good_id for next iteration
+  if good_id &lt; #MARKET_LIST then
+    good_id = good_id + 1
+  else
+    good_id = 1
+  end
+end
+
+
+
+PLAYER_OFFSET = 0x39F4
+
+function getGoodCount(player, good)
+  -- returns current number of good in stockple/granary/armory
+  local GOODS_BASE = 0x0115FCBC -- 1.4.1
+  return readInteger(GOODS_BASE + (player-1) * PLAYER_OFFSET + 4 * GOODS_ID[good])
+end
+
+function getGold(player)
+  -- returns player gold
+  local GOLD_BASE = 0x0115FCF8 -- 1.4.1
+  return readInteger(GOLD_BASE + (player-1) * PLAYER_OFFSET)
+end
+</LuaScript>
+</CheatTable>

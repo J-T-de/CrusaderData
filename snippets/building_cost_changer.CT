@@ -1,0 +1,220 @@
+<?xml version="1.0" encoding="utf-8"?>
+<CheatTable CheatEngineTableVersion="29">
+  <CheatEntries>
+    <CheatEntry>
+      <ID>0</ID>
+      <Description>"BuildingCostChanger"</Description>
+      <LastState/>
+      <VariableType>Auto Assembler Script</VariableType>
+      <AssemblerScript>{$lua}
+
+
+--[[ If you want to change the costs of buildings, add
+{"building", wood_cost, stone_cost, iron_cost, pitch_cost, gold_cost}
+to the BUILDING_COST_CHANGES. All building names can be found below it.
+--]]
+
+
+BUILDING_COST_CHANGES = { -- examples from strongholdify
+-- buildings
+{"armory",          10,  0, 0, 0,   0},
+{"inn",             50,  0, 0, 0,  25},
+{"apothecary",      10,  0, 0, 0,  50},
+{"marketplace",     15,  0, 0, 0,   0},
+{"chapel",           0, 10, 0, 0, 250},
+{"church",           0, 20, 0, 0, 350},
+{"cathedral",        0, 40, 0, 0, 500},
+-- good things (add pond when included)
+{"maypole",          0,  0, 0, 0,  30},
+{"garden",           0,  0, 0, 0,  30},
+{"statue",           0,  0, 0, 0,  30},
+{"shrine",           0,  0, 0, 0,  30},
+{"dancing_bear",     0,  0, 0, 0,  30},
+-- bad things
+{"gallows",          0,  0, 0, 0,  50},
+{"stocks",           0,  0, 0, 0,  50},
+{"cesspit",          0,  0, 0, 0,  50},
+{"burning_stake",    0,  0, 0, 0,  50},
+{"gibbet",           0,  0, 0, 0,  50},
+{"dungeon",          0,  0, 0, 0,  50},
+{"stretching_rack",  0,  0, 0, 0,  50},
+{"chopping_block",   0,  0, 0, 0,  50},
+{"dunking_stool",    0,  0, 0, 0,  50}}
+
+
+-- building names after the .
+BUILDING_COST_ID = {}
+-- STRUCT_NULL
+BUILDING_COST_ID.hovel             = 1
+-- STRUCT_HOUSE
+BUILDING_COST_ID.woodcutter        = 3
+BUILDING_COST_ID.ox_tether         = 4
+BUILDING_COST_ID.iron_mine         = 5
+BUILDING_COST_ID.pitch_rig         = 6
+BUILDING_COST_ID.hunter            = 7
+BUILDING_COST_ID.mercenary_post    = 8
+BUILDING_COST_ID.barracks          = 9
+BUILDING_COST_ID.stockpile         = 10
+BUILDING_COST_ID.armory            = 11
+BUILDING_COST_ID.fletcher          = 12
+BUILDING_COST_ID.blacksmith        = 13
+BUILDING_COST_ID.poleturner        = 14
+BUILDING_COST_ID.armourer          = 15
+BUILDING_COST_ID.tanner            = 16
+BUILDING_COST_ID.bakery            = 17
+BUILDING_COST_ID.brewery           = 18
+BUILDING_COST_ID.granary           = 19
+BUILDING_COST_ID.quarry            = 20
+-- STRUCT_QUARRYPILE
+BUILDING_COST_ID.inn               = 22
+BUILDING_COST_ID.apothecary        = 23
+BUILDING_COST_ID.engineers_guild   = 24
+BUILDING_COST_ID.tunnelers_guild   = 25
+BUILDING_COST_ID.marketplace       = 26
+BUILDING_COST_ID.well              = 27
+BUILDING_COST_ID.oil_smelter       = 28
+-- STRUCT_SIEGE_TENT
+BUILDING_COST_ID.wheat_farm        = 30
+BUILDING_COST_ID.hop_farm          = 31
+BUILDING_COST_ID.apple_farm        = 32
+BUILDING_COST_ID.dairy_farm        = 33
+BUILDING_COST_ID.mill              = 34
+BUILDING_COST_ID.stables           = 35
+BUILDING_COST_ID.chapel            = 36
+BUILDING_COST_ID.church            = 37
+BUILDING_COST_ID.cathedral         = 38
+-- STRUCT_UNUSED
+-- STRUCT_KEEP_ONE
+-- STRUCT_KEEP_TWO
+-- STRUCT_KEEP_THREE
+-- STRUCT_KEEP_FOUR
+-- STRUCT_KEEP_FIVE
+BUILDING_COST_ID.large_gatehouse   = 45
+BUILDING_COST_ID.small_gatehouse   = 46
+-- -- STRUCT_MAIN_WOOD
+-- -- STRUCT_POSTERN_GATE
+BUILDING_COST_ID.drawbridge        = 49
+BUILDING_COST_ID.tunnel            = 50
+-- STRUCT_CAMP_FIRE
+-- STRUCT_SIGNPOST
+-- STRUCT_PARADE_GROUND
+BUILDING_COST_ID.fire_ballista     = 54
+-- STRUCT_CAMPGROUND
+-- STRUCT_PARADE_GROUND
+-- STRUCT_PARADE_GROUND
+-- STRUCT_PARADE_GROUND
+-- STRUCT_PARADE_GROUND
+-- STRUCT_GATEHOUSE
+-- STRUCT_TOWER
+BUILDING_COST_ID.gallows           = 62
+BUILDING_COST_ID.stocks            = 63
+-- STRUCT_WITCH_HOIST
+BUILDING_COST_ID.maypole           = 65
+BUILDING_COST_ID.garden            = 66
+BUILDING_COST_ID.killing_pit       = 67
+BUILDING_COST_ID.pitch_ditch       = 68
+-- STRUCT_UNUSED
+BUILDING_COST_ID.water_pot         = 70
+-- KEEPDOOR_LEFT
+-- KEEPDOOR_RIGHT
+-- KEEPDOOR
+BUILDING_COST_ID.tower_one         = 74
+BUILDING_COST_ID.tower_two         = 75
+BUILDING_COST_ID.tower_three       = 76
+BUILDING_COST_ID.tower_four        = 77
+BUILDING_COST_ID.tower_five        = 78
+-- STRUCT_UNUSED
+BUILDING_COST_ID.catapult          = 80
+BUILDING_COST_ID.trebuchet         = 81
+BUILDING_COST_ID.battering_ram     = 82
+BUILDING_COST_ID.siege_tower       = 83
+BUILDING_COST_ID.portable_shield   = 84
+-- STRUCT_UNUSED
+BUILDING_COST_ID.mangonel          = 86
+BUILDING_COST_ID.balista           = 87
+-- STRUCT_UNUSED
+-- STRUCT_UNUSED
+-- STRUCT_UNUSED
+BUILDING_COST_ID.cesspit           = 91
+BUILDING_COST_ID.burning_stake     = 92
+BUILDING_COST_ID.gibbet            = 93
+BUILDING_COST_ID.dungeon           = 94
+BUILDING_COST_ID.stretching_rack   = 95
+-- STRUCT_RACK_FLOGGING
+BUILDING_COST_ID.chopping_block    = 97
+BUILDING_COST_ID.dunking_stool     = 98
+BUILDING_COST_ID.dog_cage          = 99
+BUILDING_COST_ID.statue            = 100
+BUILDING_COST_ID.shrine            = 101
+-- STRUCT_BEE_HIVE
+BUILDING_COST_ID.dancing_bear      = 103
+-- STRUCT_POND
+-- STRUCT_BEAR_CAVE
+BUILDING_COST_ID_LENGTH            = 105
+
+
+
+{$asm}
+[ENABLE]
+{$lua}
+
+
+function getBuildingCostBase()
+  local scan = AOBScan(BUILDING_COST_AOB)
+
+  if scan == nil then
+    print("AOB not found")
+    return nil
+  end
+
+  if scan.Count~= 2 then
+    -- we should find two entries:
+    -- one fixed in the .exe     - scan[0]
+    -- one loaded during runtime - scan[1]
+    print("AOB strange")
+    return nil
+  end
+
+  local ret = tonumber(scan[1], 16) -- convert hex string to number
+
+  scan.destroy()
+
+  return ret
+end
+
+
+BUILDING_COST_AOB = "00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 06 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 06 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 03"
+-- BUILDING_COST_BASE = 0x01124CF4 -- 1.4.1
+BUILDING_COST_BASE = getBuildingCostBase()
+
+
+function getBuildingCostAddress(building, resource_id)
+  return BUILDING_COST_BASE + 20 * BUILDING_COST_ID[building] + 4 * resource_id
+end
+
+-- Apply changes
+for building_cost_change = 1, #BUILDING_COST_CHANGES do
+  change = BUILDING_COST_CHANGES[building_cost_change]
+  for resource_id = 0, 4 do
+    writeInteger(getBuildingCostAddress(change[1],resource_id), change[resource_id+2])
+  end
+end
+
+
+
+{$asm}
+[DISABLE]
+{$lua}
+
+
+print("Please restart the game")
+</AssemblerScript>
+    </CheatEntry>
+  </CheatEntries>
+  <UserdefinedSymbols/>
+  <Comments>Version 1.0
+
+by J-T-de</Comments>
+  <LuaScript>
+</LuaScript>
+</CheatTable>
