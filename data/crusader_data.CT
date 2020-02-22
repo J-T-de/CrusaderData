@@ -198,7 +198,7 @@ TROOP_ID.e_spear        = 24
 TROOP_ID.e_pike         = 25
 TROOP_ID.e_mace         = 26
 TROOP_ID.e_sword        = 27
-TROOP_ID.e_knight	      = 28
+TROOP_ID.e_knight       = 28
 TROOP_ID.e_ladder       = 29
 TROOP_ID.e_engineer     = 30
 --TROOP_ID.???          = 31
@@ -285,7 +285,7 @@ LORD_TYPE_LENGTH  = 2
 PLAYER_TYPE_ID = {}
 PLAYER_TYPE_ID.human  = 1
 PLAYER_TYPE_ID.ai     = 2
-PLAYER_TYPE_LENGHT    = 2
+PLAYER_TYPE_LENGTH    = 2
 
 PLAYER_OFFSET = 0x39F4  -- == 4 * 0xE7D
 -- here could be potentially a 0xE7D = 3709 entry table with lots of things in it... number of resources, number of buildings, number of troops, %drunk, ... some important ones below
@@ -305,12 +305,14 @@ function getPopularityAddress(player)
   + PLAYER_OFFSET * (player - 1)
 end  -- returns 0 - 10000
 
-function getTroopCountAddress(player, troop) -- TODO: check
-  local PLAYER_TROOP_COUNT_BASE = 0x116184C  -- 1.4.1?
+--[[ TODO: does not work for non-european units. suggests UNIT_COST_ID
+function getTroopCountAddress(player, troop)
+  local PLAYER_TROOP_COUNT_BASE = 0x116184C  -- 1.4.1
   return PLAYER_TROOP_COUNT_BASE
   + PLAYER_OFFSET * (player - 1)
-  + 4 * TROOP_INDICES[troop] 
+  + 4 * TROOP_ID[troop]
 end
+--]]
 
 function getGoodCountAddress(player, good)
   local PLAYER_GOOD_BASE = 0x0115FCBC  -- 1.4.1
@@ -339,7 +341,7 @@ GAME_DIFFICULTY_ID.four   = 4  -- ai advantage
 GAME_DIFFICULTY_ID.five   = 5  -- ai advantage
 GAME_DIFFICULTY_LENGTH    = 5
 
-AI_STARTUP_TROOPS_BASE = 0x0000614444  -- 1.3.0
+AI_STARTUP_UNIT_BASE = 0x0000614444  -- 1.3.0
 
 UNIT_STARTUP_ID = {}
 -- UNIT_STARTUP_ID.???        = 0 -- does not spawn anything, always zero
@@ -366,7 +368,7 @@ UNIT_STARTUP_LENGTH           = 20
 
 
 function getAIUnitStartupAddress(ai, game_type, unit)
-  return AI_START_TROOPS_BASE
+  return AI_STARTUP_UNIT_BASE
   + 4 * UNIT_STARTUP_LENGTH * GAME_TYPE_LENGTH * (AI_ID[ai] - 1)
   + 4 * UNIT_STARTUP_LENGTH * (GAME_TYPE_ID[game_type] - 1)
   + 4 * UNIT_STARTUP_ID[unit]
@@ -374,17 +376,17 @@ end
 
 function getPlayerUnitStartupAddress(lord_type, game_type, unit)
   -- same as getAIStartupTroopAddress, but ai_id==17 for euro and ai_id==18 for arab lord
-  return AI_STARTUP_TROOPS_BASE
+  return AI_STARTUP_UNIT_BASE
   + 4 * UNIT_STARTUP_LENGTH * GAME_TYPE_LENGTH * (17 + (LORD_TYPE_ID[lord_type] - 1))
   + 4 * UNIT_STARTUP_LENGTH * (GAME_TYPE_ID[game_type] - 1)
   + 4 * UNIT_STARTUP_ID[unit]
 end
 
 function getStartupGoldAddress(game_type, game_difficulty, player_type)
-  local STARTUP_GOLD_BASE = TODO
+  local STARTUP_GOLD_BASE = 0x00615680  -- 1.3.0
   return STARTUP_GOLD_BASE
-  + 4 * PLAYER_TYPE_LENGTH * GAME_DIFFICULTY_LENGTH * GAME_TYPE_ID[game_type]
-  + 4 * PLAYER_TYPE_LENGTH * (GAME_DIFFICULTY_ID[game_difficulty] - 1)
+  + 4 * PLAYER_TYPE_LENGTH * GAME_DIFFICULTY_LENGTH * (GAME_TYPE_ID[game_type] - 1)
+  + 4 * PLAYER_TYPE_LENGTH * GAME_DIFFICULTY_ID[game_difficulty]
   + 4 * PLAYER_TYPE_ID[player_type]
 end
 
@@ -394,8 +396,9 @@ end
 -- UNITS AND FIGHTING --
 ------------------------
 
--- TODO: check this section; probably shift UNIT_COST_ID one up
+-- TODO: redo this section; shift UNIT_COST_ID one up
 
+--[[
 UNIT_COST_ID = {}
 UNIT_COST_ID.e_archer   = 0
 UNIT_COST_ID.e_xbow     = 1
@@ -461,13 +464,20 @@ function getBuildingHPAddress(building)
 return base + 4 * BUILDING_INDICES[building]
 end
 
+-- Health table: UnitID * 4 + 0xB4E960
+
+-- Xbow dmg table: 0xB4ED20
+-- Bow dmg table: 0xB4EAA0
+-- Sling dmg table: 0xB4EBE0
+
+-- Melee dmg table: 0xB4EE60 + (defenderID + 0x50 * attackerID)*4
+--]]
+
 
 
 -----------------
 -- MARKETPLACE --
 -----------------
-
--- TODO: check this section
 
 GOOD_ID = {}
 GOOD_ID.wood    = 2
@@ -508,14 +518,14 @@ end
 
 function getGoodBuyAddress(good)
   -- price for batches of 5 
-  return GOODS_TRADE_BASE
+  return GOOD_TRADE_BASE
   + 4 * TRADE_ACTION_LENGTH * GOODS_ID[good]
   + 4 * (TRADE_ACTION_ID["buy"] - 1)
 end
 
 function getGoodSellAddress(good)
   -- price for batches of 5
-  return GOODS_TRADE_BASE
+  return GOOD_TRADE_BASE
   + 4 * TRADE_ACTION_LENGTH * GOODS_ID[good]
   + 4 * (TRADE_ACTION_ID["sell"] - 1)
 end
@@ -529,6 +539,11 @@ end
 function printAddress(address)
   -- prints address in format 0xAB12CD34
   print(string.format("0x%8.8X", address))
+end
+
+function printHex(number)
+  -- prints number in hex AB11CD22
+  print(string.format("0x%X", number))
 end
 
 
