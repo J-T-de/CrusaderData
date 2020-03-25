@@ -331,17 +331,15 @@ GAME_TYPE_ID = {}
 GAME_TYPE_ID.normal     = 1
 GAME_TYPE_ID.crusader   = 2
 GAME_TYPE_ID.deathmatch = 3
-GAME_TYPE_LENGTH = 3
+GAME_TYPE_LENGTH        = 3
 
-GAME_DIFFICULTY_ID = {}  -- TODO: naming
-GAME_DIFFICULTY_ID.one    = 1  -- human advantage
-GAME_DIFFICULTY_ID.two    = 2  -- human advantage
-GAME_DIFFICULTY_ID.three  = 3  -- balanced
-GAME_DIFFICULTY_ID.four   = 4  -- ai advantage
-GAME_DIFFICULTY_ID.five   = 5  -- ai advantage
-GAME_DIFFICULTY_LENGTH    = 5
-
-AI_STARTUP_UNIT_BASE = 0x0000614444  -- 1.3.0
+GAME_DIFFICULTY_ID = {}
+GAME_DIFFICULTY_ID.human_big  = 1
+GAME_DIFFICULTY_ID.human      = 2
+GAME_DIFFICULTY_ID.balanced   = 3
+GAME_DIFFICULTY_ID.ai         = 4
+GAME_DIFFICULTY_ID.ai_big     = 5
+GAME_DIFFICULTY_LENGTH        = 5
 
 UNIT_STARTUP_ID = {}
 -- UNIT_STARTUP_ID.???        = 0 -- does not spawn anything, always zero
@@ -367,6 +365,9 @@ UNIT_STARTUP_ID.s_fballista   = 18 -- spawns unmanned fire_ballista, ai does not
 UNIT_STARTUP_LENGTH           = 20
 
 
+AI_STARTUP_UNIT_BASE = 0x0000614444  -- 1.3.0
+AI_STARTUP_UNIT_AOB = "00 00 00 00 00 00 00 00 00 00 00 00 0C 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 28 00 00 00"
+
 function getAIUnitStartupAddress(ai, game_type, unit)
   return AI_STARTUP_UNIT_BASE
   + 4 * UNIT_STARTUP_LENGTH * GAME_TYPE_LENGTH * (AI_ID[ai] - 1)
@@ -382,8 +383,10 @@ function getPlayerUnitStartupAddress(lord_type, game_type, unit)
   + 4 * UNIT_STARTUP_ID[unit]
 end
 
+STARTUP_GOLD_BASE = 0x00615680  -- 1.3.0
+STARTUP_GOLD_AOB = "40 1F 00 00 D0 07 00 00 A0 0F 00 00 D0 07 00 00 D0 07 00 00 D0 07 00 00 D0 07 00 00 A0 0F 00 00 D0 07 00 00 40 1F 00 00 40 1F 00 00 D0 07 00 00 A0 0F 00 00 D0 07 00 00 D0 07 00 00 D0 07 00 00 D0 07 00 00 A0 0F 00 00 D0 07 00 00 40 1F 00 00 40 9C 00 00 B8 0B 00 00 20 4E 00 00 58 1B 00 00 10 27 00 00 10 27 00 00 58 1B 00 00 20 4E 00 00 B8 0B 00 00 40 9C 00 00"
+
 function getStartupGoldAddress(game_type, game_difficulty, player_type)
-  local STARTUP_GOLD_BASE = 0x00615680  -- 1.3.0
   return STARTUP_GOLD_BASE
   + 4 * PLAYER_TYPE_LENGTH * GAME_DIFFICULTY_LENGTH * (GAME_TYPE_ID[game_type] - 1)
   + 4 * PLAYER_TYPE_LENGTH * GAME_DIFFICULTY_ID[game_difficulty]
@@ -502,7 +505,7 @@ GOOD_ID.leather = 23
 GOOD_ID.armor   = 24
 GOOD_ID_LENGTH  = 25
 
-GOOD_TRADE_BASE = 0x117CFD4  -- 1.4.1
+GOOD_TRADE_BASE = 0x117CFD4  -- 1.4.1, on runtime
 
 TRADE_ACTION_ID = {}
 TRADE_ACTION_ID.buy   = 1
