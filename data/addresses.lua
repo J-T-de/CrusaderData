@@ -1,6 +1,6 @@
 require("util")
 require("map")
-require("UnitIndices")
+require("building_id")
 
 BuildingData = {}
 BuildingData.MaxWorkers = MakeStridedArray('"Stronghold Crusader.exe"+1B8B58', 4, 2, "Max Workers")
@@ -51,7 +51,7 @@ StructResources = StructSpec:declare_array("Resources", 4, {"Wood", "Hops", "Sto
 })
 
 -- Building params
-StructBuildingsMaxHP = StructSpec:declare_array("BuildingHP", 4, BUILDING_NAMES)
+StructBuildingsMaxHP = StructSpec:declare_array("BuildingHP", 4, BUILDING_NAME)
 BuildingHPBaseAddress = '"Stronghold Crusader.exe"+1BA21C'
 
 

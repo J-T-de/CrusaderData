@@ -1,3 +1,14 @@
+function printAddress(address)
+    -- prints address in format 0xAB12CD34
+    print(string.format("0x%8.8X", address))
+end
+  
+function printHex(number)
+    -- prints number in hex AB11CD22
+    print(string.format("0x%X", number))
+end
+
+
 -- Read a single byte
 function ReadInt8(address)
 	return readBytes(address, 1, false)
